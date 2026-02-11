@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CAMERA IRIS | Motion Control</title>
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="backdrop"></div>
+    <div class="blackhole" aria-hidden="true"></div>
+    <div class="glow glow-left"></div>
+    <div class="glow glow-right"></div>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="home-btn" href="index.html">
+          <span class="logo-eye" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path
+                d="M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.6 6-9.5 6-9.5-6-9.5-6Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6" />
+            </svg>
+          </span>
+          <span class="home-text">CAMERA IRIS</span>
+        </a>
+        
+        <a class="nav-btn nav-btn-wide" href="profile.html">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <circle cx="12" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6" />
+                <path d="M4.5 20a7.5 7.5 0 0 1 15 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+            </span>
+            <span>Profile</span>
+          </a>
+        <nav class="top-nav" aria-label="Primary">
+          <a class="nav-btn nav-btn-wide" href="#" id="chatBtn">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8l-4 4V6a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span>Chat</span>
+          </a>
+
+          <button id="notifyBtn" class="notify-btn notify-animated" type="button" aria-label="Enable notifications">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path
+              d="M12 22a2.6 2.6 0 0 0 2.6-2.6h-5.2A2.6 2.6 0 0 0 12 22Zm7-6.6V10a7 7 0 1 0-14 0v5.4l-1.8 1.8a.9.9 0 0 0 .64 1.56h17.3a.9.9 0 0 0 .64-1.56Z"
+              fill="currentColor"
+              />
+              </svg>
+            </span>
+            <span class="notify-text">Notifications</span>
+          </button>
+
+          <a class="nav-btn nav-btn-wide" href="friends.html">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path
+                  d="M12 20s-6.5-4.2-9-7.5C1.2 10.5 2 7.4 4.5 6.2c1.8-.9 4-.3 5.3 1.2L12 9.7l2.2-2.3c1.3-1.5 3.6-2.1 5.3-1.2 2.5 1.2 3.3 4.3 1.5 6.3C18.5 15.8 12 20 12 20Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span>Friends</span>
+          </a>
+          <div class="add-menu-wrap">
+            <button id="topAdd" class="nav-btn nav-btn-wide add-btn" type="button" aria-label="Add" aria-expanded="false">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span>Add</span>
+            </button>
+            <div id="addMenu" class="add-menu hidden" role="menu" aria-label="Add options">
+              <button id="postBtn" class="add-option" type="button">+ Post</button>
+              <button id="inviteBtn" class="add-option" type="button">+ Invite</button>
+            </div>
+          </div>
+          <a class="nav-btn nav-btn-wide" href="#">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path d="M7.5 8.5c-2.2 0-4 1.8-4 3.5s1.8 3.5 4 3.5c2.7 0 4.4-3 6.5-5.1 1.3-1.3 2.4-2.4 4-2.4 2.2 0 4 1.8 4 3.5s-1.8 3.5-4 3.5c-2.7 0-4.4-3-6.5-5.1C9.8 9.6 8.7 8.5 7.5 8.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span>Timeline</span>
+          </a>
+                    <button id="topSearch" class="search-btn" type="button" aria-label="Search">
+            <span class="search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="1.6" />
+                <path d="M16 16l4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+            </span>
+            <span class="search-text">Search</span>
+          </button>
+
+          <a class="nav-btn nav-btn-wide" href="index.html">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path
+                  d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="12" cy="13" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6" />
+              </svg>
+            </span>
+            <span>Image</span>
+          </a>
+          <div class="nav-dropdown">
+            <a class="nav-btn nav-btn-wide" href="index.html?mode=video">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path
+                    d="M3 7h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M15 10l6-3v10l-6-3Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span>Video</span>
+            </a>
+            <div class="nav-dropdown-menu" role="menu" aria-label="Video options">
+              <a class="nav-sub-btn active" href="motion.html">Motion Control</a>
+              <a class="nav-sub-btn" href="character.html">Character</a>
+              <a class="nav-sub-btn" href="upscale.html">Upscale</a>
+            </div>
+          </div>
+          <a class="nav-btn nav-btn-wide" href="media.html">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span>Media</span>
+          </a>
+        </nav>
+        <div class="top-controls">
+          <button id="creditsBtn" class="credits-btn" type="button" aria-label="Subscription credits">
+            <span class="credits-symbol" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path d="M12 3v18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <path d="M16.5 7.5c0-2.2-2-4-4.5-4s-4.5 1.8-4.5 4 2 4 4.5 4 4.5 1.8 4.5 4-2 4-4.5 4-4.5-1.8-4.5-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="credits-text">Subscription</span>
+            <span class="credits-value">0</span>
+          </button>
+                                                  <div class="theme-menu-wrap">
+            <button id="themeBtn" class="nav-btn theme-btn" type="button" aria-label="Display themes" aria-expanded="false">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path
+                    d="M3 21l3.8-1 11-11-2.8-2.8-11 11L3 21Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.5 5.5l2.8-2.8 3 3-2.8 2.8"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span>Display</span>
+            </button>
+            <div id="themeMenu" class="theme-menu hidden" role="menu" aria-label="Color modes">
+              <div class="theme-title">Theme</div>
+              <div class="theme-options">
+                <button type="button" class="theme-option" data-theme="ember">Black Hole</button>
+                <button type="button" class="theme-option" data-theme="plain-black">BLACK</button>
+                <button type="button" class="theme-option" data-theme="white">WHITE</button>
+                <button type="button" class="theme-option" data-theme="matrix">Matrix</button>
+                <button type="button" class="theme-option" data-theme="cobalt">Galaxy</button>
+                <button type="button" class="theme-option" data-theme="purple">Nebula</button>
+                <button type="button" class="theme-option" data-theme="aurora">Aurora</button>
+                <button type="button" class="theme-option" data-theme="nova">Nova</button>
+                <button type="button" class="theme-option" data-theme="red-moon">RED MOON</button>
+                <button type="button" class="theme-option" data-theme="solar">Solar</button>
+                <button type="button" class="theme-option" data-theme="bananas">Bananas</button>
+                <button type="button" class="theme-option" data-theme="space">Space</button>
+                <button type="button" class="theme-option" data-theme="clouds">Clouds</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-menu-wrap">
+            <button id="profileBtn" class="nav-btn nav-btn-wide profile-btn" type="button" aria-label="Account" aria-expanded="false">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span>Account</span>
+            </button>
+            <div id="profileMenu" class="profile-menu hidden" role="menu" aria-label="Profile">
+              <div class="profile-field">
+                <label for="profileNameInput">Name</label>
+                <input id="profileNameInput" name="profileNameInput" type="text" placeholder="Your name" autocomplete="name" />
+              </div>
+              <div class="profile-field">
+                <label for="profileEmail">Email</label>
+                <input id="profileEmail" name="profileEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+              </div>
+              <div class="profile-field">
+                <label for="profilePassword">Password</label>
+                <input id="profilePassword" name="profilePassword" type="password" placeholder="••••••••" autocomplete="current-password" />
+              </div>
+              <div class="profile-field">
+                <label for="profilePlan">Subscription</label>
+                <select id="profilePlan" name="profilePlan">
+                  <option value="unlimited">Unlimited</option>
+                  <option value="uncensored">Uncensored</option>
+                </select>
+              </div>
+              <button id="profileSaveBtn" class="primary-btn" type="button">Log In</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="static-main">
+        <section class="static-card">
+          <h2>Motion Control</h2>
+          <p>Motion control tools will live here. Switch to Video to generate motion-first outputs.</p>
+        </section>
+      </main>
+    </div>
+
+    <script src="matrix-rain.js"></script>
+    <script src="banana-rain.js"></script>
+    <script src="space-stars.js"></script>
+    <script src="clouds.js"></script>
+    <script>
+      const notifyBtn = document.getElementById("notifyBtn");
+      const creditsBtn = document.getElementById("creditsBtn");
+      const themeBtn = document.getElementById("themeBtn");
+      const themeMenu = document.getElementById("themeMenu");
+      const themeOptions = document.querySelectorAll(".theme-option");
+      const themeCreateBtn = document.querySelector(".theme-create");
+      const themeCreatePanel = document.querySelector(".theme-create-panel");
+      const themeCreateInput = document.querySelector(".theme-create-input");
+      const themeCreateAdd = document.querySelector(".theme-create-add");
+      const themeCreateDelete = document.querySelector(".theme-create-delete");
+      const addBtn = document.getElementById("topAdd");
+      const addMenu = document.getElementById("addMenu");
+      const inviteBtn = document.getElementById("inviteBtn");
+      const postBtn = document.getElementById("postBtn");
+      const profileBtn = document.getElementById("profileBtn");
+      const profileMenu = document.getElementById("profileMenu");
+      const profileNameInput = document.getElementById("profileNameInput");
+      const profileEmail = document.getElementById("profileEmail");
+      const profilePassword = document.getElementById("profilePassword");
+      const profilePlan = document.getElementById("profilePlan");
+      const profileSaveBtn = document.getElementById("profileSaveBtn");
+
+      const NOTIFY_STORAGE_KEY = "cameraIrisNotifyEnabled";
+      const THEME_STORAGE_KEY = "cameraIrisTheme";
+      const CUSTOM_THEMES_KEY = "cameraIrisCustomThemes";
+      const CREDITS_STORAGE_KEY = "cameraIrisCredits";
+      const PROFILE_NAME_KEY = "cameraIrisProfileName";
+      const PROFILE_EMAIL_KEY = "cameraIrisProfileEmail";
+      const PROFILE_PASSWORD_KEY = "cameraIrisProfilePassword";
+      const PROFILE_PLAN_KEY = "cameraIrisProfilePlan";
+      const PROFILE_ACCOUNT_KEY = "cameraIrisProfileAccount";
+      const DEFAULT_THEME = "matrix";
+      const DEFAULT_CREDITS = 120;
+      const DEFAULT_PLAN = "unlimited";
+
+      let notifyEnabled = false;
+
+      function loadNotifyPreference() {
+        try {
+          return localStorage.getItem(NOTIFY_STORAGE_KEY) === "true";
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function saveNotifyPreference(value) {
+        try {
+          localStorage.setItem(NOTIFY_STORAGE_KEY, value ? "true" : "false");
+        } catch (error) {
+          // ignore storage failures
+        }
+      }
+
+      function updateNotifyButton() {
+        if (!notifyBtn) {
+          return;
+        }
+        if (!("Notification" in window)) {
+          notifyBtn.disabled = true;
+          notifyBtn.classList.remove("active");
+          notifyBtn.setAttribute("aria-label", "Notifications unavailable");
+          notifyBtn.title = "Notifications unavailable";
+          return;
+        }
+
+        const permission = Notification.permission;
+        notifyEnabled = permission === "granted" && loadNotifyPreference();
+
+        if (permission === "denied") {
+          notifyBtn.disabled = true;
+          notifyBtn.classList.remove("active");
+          notifyBtn.setAttribute("aria-label", "Notifications blocked");
+          notifyBtn.title = "Notifications blocked";
+          return;
+        }
+
+        notifyBtn.disabled = false;
+        notifyBtn.classList.toggle("active", notifyEnabled);
+        notifyBtn.setAttribute("aria-label", notifyEnabled ? "Notifications on" : "Enable notifications");
+        notifyBtn.title = notifyEnabled ? "Notifications on" : "Enable notifications";
+      }
+
+      async function handleNotifyClick() {
+        if (!("Notification" in window) || !notifyBtn) {
+          return;
+        }
+
+        if (Notification.permission === "granted") {
+          notifyEnabled = !notifyEnabled;
+          saveNotifyPreference(notifyEnabled);
+          updateNotifyButton();
+          if (notifyEnabled) {
+            new Notification("Notifications enabled", { body: "You will be notified when a generation completes." });
+          }
+          return;
+        }
+
+        if (Notification.permission !== "denied") {
+          const permission = await Notification.requestPermission();
+          if (permission === "granted") {
+            notifyEnabled = true;
+            saveNotifyPreference(true);
+            updateNotifyButton();
+            new Notification("Notifications enabled", { body: "You will be notified when a generation completes." });
+          } else {
+            notifyEnabled = false;
+            saveNotifyPreference(false);
+            updateNotifyButton();
+          }
+        }
+      }
+
+      function loadCredits() {
+        try {
+          const stored = localStorage.getItem(CREDITS_STORAGE_KEY);
+          return stored ? Number(stored) : DEFAULT_CREDITS;
+        } catch (error) {
+          return DEFAULT_CREDITS;
+        }
+      }
+
+      function saveCredits(value) {
+        try {
+          localStorage.setItem(CREDITS_STORAGE_KEY, String(value));
+        } catch (error) {
+          // ignore storage failures
+        }
+      }
+
+      function updateCreditsDisplay() {
+        if (!creditsBtn) {
+          return;
+        }
+        const current = loadCredits();
+        const label = Number.isFinite(current) ? Math.max(current, 0) : DEFAULT_CREDITS;
+        creditsBtn.querySelector(".credits-value").textContent = label.toString();
+      }
+
+      function applyTheme(theme) {
+        const mappedTheme = theme === "nebula" ? "purple" : theme;
+        const nextTheme = mappedTheme === "infinity" ? DEFAULT_THEME : (mappedTheme || DEFAULT_THEME);
+        document.documentElement.setAttribute("data-theme", nextTheme);
+        const options = document.querySelectorAll(".theme-option");
+        options.forEach((option) => {
+          option.classList.toggle("active", option.dataset.theme === nextTheme);
+        });
+      }
+
+      function loadTheme() {
+        try {
+          const stored = localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME;
+        if (stored === "infinity") {
+          return DEFAULT_THEME;
+        }
+        if (stored.startsWith("custom-")) {
+          const themes = loadCustomThemes();
+          if (!themes.some((theme) => theme.id === stored)) {
+            return DEFAULT_THEME;
+          }
+        }
+        return stored;
+        } catch (error) {
+          return DEFAULT_THEME;
+        }
+      }
+
+      function saveTheme(theme) {
+        try {
+          localStorage.setItem(THEME_STORAGE_KEY, theme);
+        } catch (error) {
+          // ignore storage failures
+        }
+      }
+
+      function setThemeMenuOpen(isOpen) {
+        if (!themeMenu || !themeBtn) {
+          return;
+        }
+        themeMenu.classList.toggle("hidden", !isOpen);
+        themeBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        if (!isOpen && themeCreatePanel) {
+          themeCreatePanel.classList.add("hidden");
+        }
+      }
+
+      function handleThemeButtonClick() {
+        if (!themeMenu) {
+          return;
+        }
+        setThemeMenuOpen(themeMenu.classList.contains("hidden"));
+      }
+
+      function handleThemeOptionClick(event) {
+        const target = event.target;
+        if (!target || !target.dataset.theme) {
+          return;
+        }
+        applyTheme(target.dataset.theme);
+        saveTheme(target.dataset.theme);
+        setThemeMenuOpen(false);
+      }
+
+      function loadProfile() {
+        try {
+          let name = localStorage.getItem(PROFILE_NAME_KEY) || "";
+          let email = localStorage.getItem(PROFILE_EMAIL_KEY) || "";
+          let password = localStorage.getItem(PROFILE_PASSWORD_KEY) || "";
+          let plan = localStorage.getItem(PROFILE_PLAN_KEY) || DEFAULT_PLAN;
+          const raw = localStorage.getItem(PROFILE_ACCOUNT_KEY);
+          const account = raw ? JSON.parse(raw) : null;
+          if (account) {
+            if (!name && account.name) {
+              name = account.name;
+            }
+            if (!email && account.email) {
+              email = account.email;
+            }
+            if (!password && account.password) {
+              password = account.password;
+            }
+            if ((!plan || plan === DEFAULT_PLAN) && account.plan) {
+              plan = account.plan;
+            }
+          }
+          if (profileNameInput) {
+            profileNameInput.value = name;
+          }
+          if (profileEmail) {
+            profileEmail.value = email;
+          }
+          if (profilePassword) {
+            profilePassword.value = password;
+          }
+          if (profilePlan) {
+            profilePlan.value = plan;
+          }
+        } catch (error) {
+          // ignore storage failures
+        }
+      }
+
+      function saveProfile() {
+        try {
+          const nameValue = profileNameInput ? profileNameInput.value.trim() : "";
+          const emailValue = profileEmail ? profileEmail.value.trim() : "";
+          const passwordValue = profilePassword ? profilePassword.value : "";
+          const planValue = profilePlan ? profilePlan.value || DEFAULT_PLAN : DEFAULT_PLAN;
+
+          if (profileNameInput) {
+            if (nameValue) {
+              localStorage.setItem(PROFILE_NAME_KEY, nameValue);
+            } else {
+              localStorage.removeItem(PROFILE_NAME_KEY);
+            }
+          }
+          if (profileEmail) {
+            if (emailValue) {
+              localStorage.setItem(PROFILE_EMAIL_KEY, emailValue);
+            } else {
+              localStorage.removeItem(PROFILE_EMAIL_KEY);
+            }
+          }
+          if (profilePassword) {
+            if (passwordValue) {
+              localStorage.setItem(PROFILE_PASSWORD_KEY, passwordValue);
+            } else {
+              localStorage.removeItem(PROFILE_PASSWORD_KEY);
+            }
+          }
+          if (profilePlan) {
+            localStorage.setItem(PROFILE_PLAN_KEY, planValue);
+          }
+          if (nameValue || emailValue || passwordValue) {
+            const raw = localStorage.getItem(PROFILE_ACCOUNT_KEY);
+            const existing = raw ? JSON.parse(raw) : null;
+            const createdAt = existing?.createdAt || new Date().toISOString();
+            const account = {
+              name: nameValue,
+              email: emailValue,
+              password: passwordValue,
+              plan: planValue,
+              createdAt,
+              lastLoginAt: new Date().toISOString(),
+            };
+            localStorage.setItem(PROFILE_ACCOUNT_KEY, JSON.stringify(account));
+          } else {
+            localStorage.removeItem(PROFILE_ACCOUNT_KEY);
+          }
+        } catch (error) {
+          // ignore storage failures
+        }
+      }
+
+      function setProfileMenuOpen(isOpen) {
+        if (!profileMenu || !profileBtn) {
+          return;
+        }
+        profileMenu.classList.toggle("hidden", !isOpen);
+        profileBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      }
+
+      function handleProfileButtonClick() {
+        if (!profileMenu) {
+          return;
+        }
+        setProfileMenuOpen(profileMenu.classList.contains("hidden"));
+      }
+
+      function handleProfileSaveClick() {
+        saveProfile();
+        setProfileMenuOpen(false);
+      }
+
+      if (themeBtn) {
+        themeBtn.addEventListener("click", handleThemeButtonClick);
+      }
+      if (themeMenu) {
+        themeMenu.addEventListener("click", (event) => {
+          event.stopPropagation();
+        });
+      }
+      if (themeCreateBtn) {
+        themeCreateBtn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          if (!themeCreatePanel) {
+            return;
+          }
+          themeCreatePanel.classList.toggle("hidden");
+          if (!themeCreatePanel.classList.contains("hidden") && themeCreateInput) {
+            themeCreateInput.focus();
+          }
+        });
+      }
+      if (themeCreateInput) {
+        themeCreateInput.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            addCustomThemeFromPrompt();
+          }
+        });
+      }
+      if (themeCreateAdd) {
+        themeCreateAdd.addEventListener("click", (event) => {
+          event.stopPropagation();
+          addCustomThemeFromPrompt();
+        });
+      }
+      if (themeCreateDelete) {
+        themeCreateDelete.addEventListener("click", (event) => {
+          event.stopPropagation();
+          deleteCustomThemeFromPrompt();
+        });
+      }
+
+      themeOptions.forEach((option) => {
+        option.addEventListener("click", handleThemeOptionClick);
+      });
+      function setAddMenuOpen(isOpen) {
+        if (!addMenu || !addBtn) {
+          return;
+        }
+        addMenu.classList.toggle("hidden", !isOpen);
+        addBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      }
+
+      function handleAddButtonClick(event) {
+        event.stopPropagation();
+        if (!addMenu) {
+          return;
+        }
+        setAddMenuOpen(addMenu.classList.contains("hidden"));
+      }
+
+      function copyInviteLink(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        return new Promise((resolve) => {
+          const input = document.createElement("textarea");
+          input.value = text;
+          input.setAttribute("readonly", "");
+          input.style.position = "absolute";
+          input.style.left = "-9999px";
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand("copy");
+          document.body.removeChild(input);
+          resolve();
+        });
+      }
+
+      function buildInviteLink() {
+        try {
+          return new URL("index.html", window.location.href).toString();
+        } catch (error) {
+          return window.location.href;
+        }
+      }
+
+      function openInviteEmail(link) {
+        const email = window.prompt("Enter an email to invite:", "");
+        if (email === null) {
+          return false;
+        }
+        const defaultMessage = `Join me on CAMERA IRIS.\n\n${link}`;
+        const message = window.prompt("Write a message for the invite email:", defaultMessage);
+        if (message === null) {
+          return false;
+        }
+        const trimmed = message.trim();
+        const finalMessage = trimmed.includes(link)
+          ? trimmed
+          : `${trimmed ? `${trimmed}\n\n` : ""}${link}`;
+        const subject = "Join me on CAMERA IRIS";
+        const mailto = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(finalMessage)}`;
+        window.location.href = mailto;
+        return true;
+      }
+
+      function handleInviteClick(event) {
+        event.stopPropagation();
+        if (!inviteBtn) {
+          return;
+        }
+        const link = buildInviteLink();
+        copyInviteLink(link).then(() => {
+          const original = inviteBtn.textContent;
+          inviteBtn.textContent = "Copied!";
+          setTimeout(() => {
+            inviteBtn.textContent = original;
+          }, 1200);
+        });
+        openInviteEmail(link);
+        setAddMenuOpen(false);
+      }
+
+      function handlePostClick(event) {
+        event.stopPropagation();
+        const input = document.getElementById("profileAddInput");
+        if (input) {
+          input.click();
+          setAddMenuOpen(false);
+          return;
+        }
+        try {
+          localStorage.setItem("cameraIrisOpenPostUpload", "true");
+        } catch (error) {
+          // ignore storage failures
+        }
+        window.location.href = "profile.html";
+      }
+
+
+
+      if (notifyBtn) {
+        notifyBtn.addEventListener("click", handleNotifyClick);
+      }
+
+      if (profileBtn) {
+        profileBtn.addEventListener("click", handleProfileButtonClick);
+      }
+
+      if (profileSaveBtn) {
+        profileSaveBtn.addEventListener("click", handleProfileSaveClick);
+      }
+      if (addBtn) {
+        addBtn.addEventListener("click", handleAddButtonClick);
+      }
+      if (addMenu) {
+        addMenu.addEventListener("click", (event) => {
+          event.stopPropagation();
+        });
+      }
+      if (inviteBtn) {
+        inviteBtn.addEventListener("click", handleInviteClick);
+      }
+      if (postBtn) {
+        postBtn.addEventListener("click", handlePostClick);
+      }
+
+      ensureCustomThemeStyles(loadCustomThemes());
+      renderCustomThemes();
+      applyTheme(loadTheme());
+      updateNotifyButton();
+      updateCreditsDisplay();
+      loadProfile();
+      setThemeMenuOpen(false);
+      setProfileMenuOpen(false);
+
+      document.addEventListener("click", (event) => {
+        if (themeMenu && themeBtn && !themeMenu.contains(event.target) && !themeBtn.contains(event.target)) {
+          setThemeMenuOpen(false);
+        }
+        if (addMenu && addBtn && !addMenu.contains(event.target) && !addBtn.contains(event.target)) {
+          setAddMenuOpen(false);
+        }
+        if (profileMenu && profileBtn && !profileMenu.contains(event.target) && !profileBtn.contains(event.target)) {
+          setProfileMenuOpen(false);
+        }
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          setThemeMenuOpen(false);
+          setAddMenuOpen(false);
+          setProfileMenuOpen(false);
+        }
+      });
+    </script>
+      <script src="search.js"></script>
+      <script src="notifications.js"></script>
+  </body>
+</html>

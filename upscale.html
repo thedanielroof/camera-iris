@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CAMERA IRIS | Upscale</title>
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="backdrop"></div>
+    <div class="blackhole" aria-hidden="true"></div>
+    <div class="glow glow-left"></div>
+    <div class="glow glow-right"></div>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="home-btn" href="index.html">
+          <span class="logo-eye" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path
+                d="M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.6 6-9.5 6-9.5-6-9.5-6Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6" />
+            </svg>
+          </span>
+          <span class="home-text">CAMERA IRIS</span>
+        </a>
+        
+        <a class="nav-btn nav-btn-wide" href="profile.html">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <circle cx="12" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.6" />
+                <path d="M4.5 20a7.5 7.5 0 0 1 15 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+            </span>
+            <span>Profile</span>
+          </a>
+        <nav class="top-nav" aria-label="Primary">
+          <a class="nav-btn nav-btn-wide" href="#" id="chatBtn">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8l-4 4V6a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span>Chat</span>
+          </a>
+
+          <button id="notifyBtn" class="notify-btn notify-animated" type="button" aria-label="Enable notifications">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path
+              d="M12 22a2.6 2.6 0 0 0 2.6-2.6h-5.2A2.6 2.6 0 0 0 12 22Zm7-6.6V10a7 7 0 1 0-14 0v5.4l-1.8 1.8a.9.9 0 0 0 .64 1.56h17.3a.9.9 0 0 0 .64-1.56Z"
+              fill="currentColor"
+              />
+              </svg>
+            </span>
+            <span class="notify-text">Notifications</span>
+          </button>
+
+          <a class="nav-btn nav-btn-wide" href="friends.html">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path
+                  d="M12 20s-6.5-4.2-9-7.5C1.2 10.5 2 7.4 4.5 6.2c1.8-.9 4-.3 5.3 1.2L12 9.7l2.2-2.3c1.3-1.5 3.6-2.1 5.3-1.2 2.5 1.2 3.3 4.3 1.5 6.3C18.5 15.8 12 20 12 20Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <span>Friends</span>
+          </a>
+          <div class="add-menu-wrap">
+            <button id="topAdd" class="nav-btn nav-btn-wide add-btn" type="button" aria-label="Add" aria-expanded="false">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span>Add</span>
+            </button>
+            <div id="addMenu" class="add-menu hidden" role="menu" aria-label="Add options">
+              <button id="postBtn" class="add-option" type="button">+ Post</button>
+              <button id="inviteBtn" class="add-option" type="button">+ Invite</button>
+            </div>
+          </div>
+          <a class="nav-btn nav-btn-wide" href="#">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path d="M7.5 8.5c-2.2 0-4 1.8-4 3.5s1.8 3.5 4 3.5c2.7 0 4.4-3 6.5-5.1 1.3-1.3 2.4-2.4 4-2.4 2.2 0 4 1.8 4 3.5s-1.8 3.5-4 3.5c-2.7 0-4.4-3-6.5-5.1C9.8 9.6 8.7 8.5 7.5 8.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span>Timeline</span>
+          </a>
+                    <button id="topSearch" class="search-btn" type="button" aria-label="Search">
+            <span class="search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="1.6" />
+                <path d="M16 16l4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+              </svg>
+            </span>
+            <span class="search-text">Search</span>
+          </button>
+
+          <a class="nav-btn nav-btn-wide" href="index.html">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path
+                  d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <circle cx="12" cy="13" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6" />
+              </svg>
+            </span>
+            <span>Image</span>
+          </a>
+          <div class="nav-dropdown">
+            <a class="nav-btn nav-btn-wide" href="index.html?mode=video">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path
+                    d="M3 7h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M15 10l6-3v10l-6-3Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span>Video</span>
+            </a>
+            <div class="nav-dropdown-menu" role="menu" aria-label="Video options">
+              <a class="nav-sub-btn" href="motion.html">Motion Control</a>
+              <a class="nav-sub-btn" href="character.html">Character</a>
+              <a class="nav-sub-btn active" href="upscale.html">Upscale</a>
+            </div>
+          </div>
+          <a class="nav-btn nav-btn-wide" href="media.html">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span>Media</span>
+          </a>
+        </nav>
+        <div class="top-controls">
+          <button id="creditsBtn" class="credits-btn" type="button" aria-label="Subscription credits">
+            <span class="credits-symbol" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                <path d="M12 3v18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <path d="M16.5 7.5c0-2.2-2-4-4.5-4s-4.5 1.8-4.5 4 2 4 4.5 4 4.5 1.8 4.5 4-2 4-4.5 4-4.5-1.8-4.5-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="credits-text">Subscription</span>
+            <span class="credits-value">0</span>
+          </button>
+                                                  <div class="theme-menu-wrap">
+            <button id="themeBtn" class="nav-btn theme-btn" type="button" aria-label="Display themes" aria-expanded="false">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path
+                    d="M3 21l3.8-1 11-11-2.8-2.8-11 11L3 21Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.5 5.5l2.8-2.8 3 3-2.8 2.8"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span>Display</span>
+            </button>
+            <div id="themeMenu" class="theme-menu hidden" role="menu" aria-label="Color modes">
+              <div class="theme-title">Theme</div>
+              <div class="theme-options">
+                <button type="button" class="theme-option" data-theme="ember">Black Hole</button>
+                <button type="button" class="theme-option" data-theme="plain-black">BLACK</button>
+                <button type="button" class="theme-option" data-theme="white">WHITE</button>
+                <button type="button" class="theme-option" data-theme="matrix">Matrix</button>
+                <button type="button" class="theme-option" data-theme="cobalt">Galaxy</button>
+                <button type="button" class="theme-option" data-theme="purple">Nebula</button>
+                <button type="button" class="theme-option" data-theme="aurora">Aurora</button>
+                <button type="button" class="theme-option" data-theme="nova">Nova</button>
+                <button type="button" class="theme-option" data-theme="red-moon">RED MOON</button>
+                <button type="button" class="theme-option" data-theme="solar">Solar</button>
+                <button type="button" class="theme-option" data-theme="bananas">Bananas</button>
+                <button type="button" class="theme-option" data-theme="space">Space</button>
+                <button type="button" class="theme-option" data-theme="clouds">Clouds</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-menu-wrap">
+            <button id="profileBtn" class="nav-btn nav-btn-wide profile-btn" type="button" aria-label="Account" aria-expanded="false">
+              <span class="nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span>Account</span>
+            </button>
+            <div id="profileMenu" class="profile-menu hidden" role="menu" aria-label="Profile">
+              <div class="profile-field">
+                <label for="profileNameInput">Name</label>
+                <input id="profileNameInput" name="profileNameInput" type="text" placeholder="Your name" autocomplete="name" />
+              </div>
+              <div class="profile-field">
+                <label for="profileEmail">Email</label>
+                <input id="profileEmail" name="profileEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+              </div>
+              <div class="profile-field">
+                <label for="profilePassword">Password</label>
+                <input id="profilePassword" name="profilePassword" type="password" placeholder="••••••••" autocomplete="current-password" />
+              </div>
+              <div class="profile-field">
+                <label for="profilePlan">Subscription</label>
+                <select id="profilePlan" name="profilePlan">
+                  <option value="unlimited">Unlimited</option>
+                  <option value="uncensored">Uncensored</option>
+                </select>
+              </div>
+              <button id="profileSaveBtn" class="primary-btn" type="button">Log In</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="static-main">
+        <section class="static-card">
+          <h2>Upscale</h2>
+          <p>Upload an asset to upscale it. This tool is coming next.</p>
+        </section>
+      </main>
+    </div>
+
+    <script src="matrix-rain.js"></script>
+    <script src="banana-rain.js"></script>
+    <script src="space-stars.js"></script>
+    <script src="clouds.js"></script>
+    <script>
+      const notifyBtn = document.getElementById("notifyBtn");
+      const creditsBtn = document.getElementById("creditsBtn");
+      const themeBtn = document.getElementById("themeBtn");
+      const themeMenu = document.getElementById("themeMenu");
+      const themeOptions = document.querySelectorAll(".theme-option");
+      const themeCreateBtn = document.querySelector(".theme-create");
+      const themeCreatePanel = document.querySelector(".theme-create-panel");
+      const themeCreateInput = document.querySelector(".theme-create-input");
+      const themeCreateAdd = document.querySelector(".theme-create-add");
+      const themeCreateDelete = document.querySelector(".theme-create-delete");
+      const addBtn = document.getElementById("topAdd");
+      const addMenu = document.getElementById("addMenu");
+      const inviteBtn = document.getElementById("inviteBtn");
+      const postBtn = document.getElementById("postBtn");
+      const profileBtn = document.getElementById("profileBtn");
+      const profileMenu = document.getElementById("profileMenu");
+      const profileNameInput = document.getElementById("profileNameInput");
+      const profileEmail = document.getElementById("profileEmail");
+      const profilePassword = document.getElementById("profilePassword");
+      const profilePlan = document.getElementById("profilePlan");
+      const profileSaveBtn = document.getElementById("profileSaveBtn");
+
+      const NOTIFY_STORAGE_KEY = "cameraIrisNotifyEnabled";
+      const THEME_STORAGE_KEY = "cameraIrisTheme";
+      const CUSTOM_THEMES_KEY = "cameraIrisCustomThemes";
+      const CREDITS_STORAGE_KEY = "cameraIrisCredits";
+      const PROFILE_NAME_KEY = "cameraIrisProfileName";
+      const PROFILE_EMAIL_KEY = "cameraIrisProfileEmail";
+      const PROFILE_PASSWORD_KEY = "cameraIrisProfilePassword";
+      const PROFILE_PLAN_KEY = "cameraIrisProfilePlan";
+      const PROFILE_ACCOUNT_KEY = "cameraIrisProfileAccount";
+      const DEFAULT_THEME = "matrix";
+      const DEFAULT_CREDITS = 120;
+      const DEFAULT_PLAN = "unlimited";
+
+      let notifyEnabled = false;
+
+      function loadNotifyPreference() {
+        try {
+          return localStorage.getItem(NOTIFY_STORAGE_KEY) === "true";
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function saveNotifyPreference(value) {
+        try {
+          localStorage.setItem(NOTIFY_STORAGE_KEY, value ? "true" : "false");
+        } catch (error) {
+          // ignore storage failures
+        }
+      }
+
+      function updateNotifyButton() {
+        if (!notifyBtn) {
+          return;
+        }
+        if (!("Notification" in window)) {
+          notifyBtn.disabled = true;
+          notifyBtn.classList.remove("active");
+          notifyBtn.setAttribute("aria-label", "Notifications unavailable");
+          notifyBtn.title = "Notifications unavailable";
+          return;
+        }
+
+        const permission = Notification.permission;
+        notifyEnabled = permission === "granted" && loadNotifyPreference();
+
+        if (permission === "denied") {
+          notifyBtn.disabled = true;
+          notifyBtn.classList.remove("active");
+          notifyBtn.setAttribute("aria-label", "Notifications blocked");
+          notifyBtn.title = "Notifications blocked";
+          return;
+        }
+
+        notifyBtn.disabled = false;
+        notifyBtn.classList.toggle("active", notifyEnabled);
+        notifyBtn.setAttribute("aria-label", notifyEnabled ? "Notifications on" : "Enable notifications");
+        notifyBtn.title = notifyEnabled ? "Notifications on" : "Enable notifications";
+      }
+
+      async function handleNotifyClick() {
+        if (!("Notification" in window) || !notifyBtn) {
+          return;
+        }
+
+        if (Notification.permission === "granted") {
+          notifyEnabled = !notifyEnabled;
+          saveNotifyPreference(notifyEnabled);
+          updateNotifyButton();
+          if (notifyEnabled) {
+            new Notification("Notifications enabled", { body: "You will be notified when a generation completes." });
+          }
+          return;
+        }
+
+        if (Notification.permission === "denied") {
+          updateNotifyButton();
+          return;
+        }
+
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          notifyEnabled = true;
+          saveNotifyPreference(true);
+          updateNotifyButton();
+          new Notification("Notifications enabled", { body: "You will be notified when a generation completes." });
+        } else {
+          updateNotifyButton();
+        }
+      }
+
+      function loadThemePreference() {
+        try {
+          const stored = localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME;
+        if (stored === "infinity") {
+          return DEFAULT_THEME;
+        }
+        if (stored.startsWith("custom-")) {
+          const themes = loadCustomThemes();
+          if (!themes.some((theme) => theme.id === stored)) {
+            return DEFAULT_THEME;
+          }
+        }
+        return stored;
+        } catch (error) {
+          return DEFAULT_THEME;
+        }
+      }
+
+      function saveThemePreference(value) {
+        try {
+          localStorage.setItem(THEME_STORAGE_KEY, value);
+        } catch (error) {
+          // ignore storage failures
+        }
+      }
+
+      function applyTheme(theme) {
+        const mappedTheme = theme === "nebula" ? "purple" : theme;
+        const nextTheme = mappedTheme === "infinity" ? DEFAULT_THEME : (mappedTheme || DEFAULT_THEME);
+        document.documentElement.setAttribute("data-theme", nextTheme);
+        saveThemePreference(nextTheme);
+        const options = document.querySelectorAll(".theme-option");
+        options.forEach((option) => {
+          option.classList.toggle("active", option.dataset.theme === nextTheme);
+        });
+      }
+
+      function setThemeMenuOpen(isOpen) {
+        if (!themeMenu || !themeBtn) {
+          return;
+        }
+        themeMenu.classList.toggle("hidden", !isOpen);
+        themeBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        if (!isOpen && themeCreatePanel) {
+          themeCreatePanel.classList.add("hidden");
+        }
+      }
+
+      function handleThemeButtonClick(event) {
+        event.stopPropagation();
+        if (!themeMenu) {
+          return;
+        }
+        setThemeMenuOpen(themeMenu.classList.contains("hidden"));
+      }
+
+      function handleThemeOptionClick(event) {
+        const target = event.currentTarget;
+        if (!target || !target.dataset.theme) {
+          return;
+        }
+        applyTheme(target.dataset.theme);
+        setThemeMenuOpen(false);
+      }
+
+      function loadCustomThemes() {
+        if (typeof localStorage === "undefined") {
+          return [];
+        }
+        try {
+          const raw = localStorage.getItem(CUSTOM_THEMES_KEY);
+          const parsed = raw ? JSON.parse(raw) : [];
+          return Array.isArray(parsed) ? parsed.filter((item) => item && item.id && item.prompt) : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function saveCustomThemes(themes) {
+        if (typeof localStorage === "undefined") {
+          return;
+        }
+        try {
+          localStorage.setItem(CUSTOM_THEMES_KEY, JSON.stringify(themes));
+        } catch (error) {
+          // ignore storage failures
+        }
+      }
+
+      function hashString(value) {
+        let hash = 0;
+        for (let i = 0; i < value.length; i += 1) {
+          hash = (hash << 5) - hash + value.charCodeAt(i);
+          hash |= 0;
+        }
+        return Math.abs(hash);
+      }
+
+      function hslToRgb(h, s, l) {
+        const sat = s / 100;
+        const light = l / 100;
+        const k = (n) => (n + h / 30) % 12;
+        const a = sat * Math.min(light, 1 - light);
+        const f = (n) => light - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+        return [Math.round(255 * f(0)), Math.round(255 * f(8)), Math.round(255 * f(4))];
+      }
+
+      function mixRgb(base, target, amount) {
+        return base.map((value, index) => Math.round(value + (target[index] - value) * amount));
+      }
+
+      function rgbToCss(rgb) {
+        return rgb.join(" ");
+      }
+
+      function rgbToHex(rgb) {
+        return `#${rgb.map((value) => value.toString(16).padStart(2, "0")).join("")}`;
+      }
+
+      function buildThemeTokens(prompt) {
+        const seed = hashString(prompt);
+        const hue = seed % 360;
+        const accent = hslToRgb(hue, 75, 55);
+        const strong = hslToRgb(hue, 80, 70);
+        const border = hslToRgb(hue, 70, 60);
+        const deep = hslToRgb(hue, 70, 35);
+        const soft = hslToRgb(hue, 60, 65);
+        const bgHue = (hue + 220) % 360;
+        const bg0 = hslToRgb(bgHue, 25, 6);
+        const bg1 = hslToRgb(bgHue, 22, 10);
+        const textMain = mixRgb([246, 239, 230], accent, 0.08);
+        const textDim = mixRgb([199, 185, 170], accent, 0.08);
+        const accentText = mixRgb([255, 255, 255], accent, 0.18);
+        const accentTextStrong = mixRgb([255, 255, 255], strong, 0.15);
+        const accentTextSoft = mixRgb([255, 255, 255], soft, 0.1);
+        const accentTextMuted = mixRgb([220, 220, 220], accent, 0.12);
+        const accentTextBright = mixRgb([255, 255, 255], strong, 0.2);
+        const accentTextAlt = mixRgb([245, 245, 245], accent, 0.12);
+        const accentTextDim = mixRgb([210, 210, 210], accent, 0.12);
+        const accentTextBadge = mixRgb([245, 255, 248], soft, 0.2);
+        const accentTextTitle = mixRgb([240, 255, 250], strong, 0.25);
+        const accentTextMetrics = mixRgb([232, 255, 246], soft, 0.2);
+        const accentTextMeta = mixRgb([205, 245, 230], accent, 0.2);
+        const accentTextHeader = mixRgb([198, 235, 220], accent, 0.18);
+
+        return {
+          accent,
+          strong,
+          border,
+          deep,
+          soft,
+          bg0,
+          bg1,
+          textMain,
+          textDim,
+          accentText,
+          accentTextStrong,
+          accentTextSoft,
+          accentTextMuted,
+          accentTextBright,
+          accentTextAlt,
+          accentTextDim,
+          accentTextBadge,
+          accentTextTitle,
+          accentTextMetrics,
+          accentTextMeta,
+          accentTextHeader,
+        };
+      }
+
+      function buildThemeStyles(theme) {
+        const tokens = buildThemeTokens(theme.prompt || theme.name || theme.id);
+        return `:root[data-theme="${theme.id}"] {
+` +
+          `  --bg-0: ${rgbToHex(tokens.bg0)};
+` +
+          `  --bg-1: ${rgbToHex(tokens.bg1)};
+` +
+          `  --accent-rgb: ${rgbToCss(tokens.accent)};
+` +
+          `  --accent-border-rgb: ${rgbToCss(tokens.border)};
+` +
+          `  --accent-strong-rgb: ${rgbToCss(tokens.strong)};
+` +
+          `  --accent-deep-rgb: ${rgbToCss(tokens.deep)};
+` +
+          `  --accent-soft-rgb: ${rgbToCss(tokens.soft)};
+` +
+          `  --accent-text: ${rgbToHex(tokens.accentText)};
+` +
+          `  --accent-text-strong: ${rgbToHex(tokens.accentTextStrong)};
+` +
+          `  --accent-text-soft: ${rgbToHex(tokens.accentTextSoft)};
+` +
+          `  --accent-text-muted: ${rgbToHex(tokens.accentTextMuted)};
+` +
+          `  --accent-text-bright: ${rgbToHex(tokens.accentTextBright)};
+` +
+          `  --accent-text-alt: ${rgbToHex(tokens.accentTextAlt)};
+` +
+          `  --accent-text-dim: ${rgbToHex(tokens.accentTextDim)};
+` +
+          `  --accent-text-badge: ${rgbToHex(tokens.accentTextBadge)};
+` +
+          `  --accent-text-title: ${rgbToHex(tokens.accentTextTitle)};
+` +
+          `  --accent-text-metrics: ${rgbToHex(tokens.accentTextMetrics)};
+` +
+          `  --accent-text-meta: ${rgbToHex(tokens.accentTextMeta)};
+` +
+          `  --accent-text-header: ${rgbToHex(tokens.accentTextHeader)};
+` +
+          `  --text-main: ${rgbToHex(tokens.textMain)};
+` +
+          `  --text-dim: ${rgbToHex(tokens.textDim)};
+` +
+          `}`;
+      }
+
+      function ensureCustomThemeStyles(themes) {
+        const id = "customThemeStyles";
+        let style = document.getElementById(id);
+        if (!style) {
+          style = document.createElement("style");
+          style.id = id;
+          document.head.appendChild(style);
+        }
+        style.textContent = themes.map((theme) => buildThemeStyles(theme)).join("
+");
+      }
+
+      function renderCustomThemes() {
+        if (!themeMenu) {
+          return;
+        }
+        const panel = themeMenu.querySelector(".theme-create-panel");
+        if (!panel) {
+          return;
+        }
+        themeMenu.querySelectorAll(".theme-option.custom-theme").forEach((btn) => btn.remove());
+        const themes = loadCustomThemes();
+        const fragment = document.createDocumentFragment();
+        themes.forEach((theme) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "theme-option custom-theme";
+          btn.dataset.theme = theme.id;
+          btn.textContent = theme.name || theme.prompt || "Custom";
+          btn.addEventListener("click", handleThemeOptionClick);
+          fragment.appendChild(btn);
+        });
+        const list = themeMenu.querySelector(".theme-options");
+        if (list) {
+          list.prepend(fragment);
+        } else {
+          panel.after(fragment);
+        }
+      }
+
+      function addCustomThemeFromPrompt() {
+        if (!themeCreateInput) {
+          return;
+        }
+        const prompt = themeCreateInput.value.trim();
+        if (!prompt) {
+          return;
+        }
+        const themes = loadCustomThemes();
+        const existing = themes.find((theme) => (theme.name || "").toLowerCase() === prompt.toLowerCase());
+        if (existing) {
+          applyTheme(existing.id);
+          return;
+        }
+        const id = `custom-${hashString(prompt).toString(36)}-${Date.now().toString(36)}`;
+        const name = prompt.length > 24 ? `${prompt.slice(0, 24)}…` : prompt;
+        const next = [{ id, name, prompt }, ...themes];
+        saveCustomThemes(next);
+        ensureCustomThemeStyles(next);
+        renderCustomThemes();
+        applyTheme(id);
+        themeCreateInput.value = "";
+      }
+
+      function deleteCustomThemeFromPrompt() {
+        const current = document.documentElement.getAttribute("data-theme") || "";
+        const prompt = themeCreateInput ? themeCreateInput.value.trim().toLowerCase() : "";
+        let themes = loadCustomThemes();
+        let removedId = "";
+        if (prompt) {
+          const index = themes.findIndex((theme) => (theme.name || "").toLowerCase() === prompt);
+          if (index >= 0) {
+            removedId = themes[index].id;
+            themes.splice(index, 1);
+          }
+        } else if (current.startsWith("custom-")) {
+          const index = themes.findIndex((theme) => theme.id === current);
+          if (index >= 0) {
+            removedId = themes[index].id;
+            themes.splice(index, 1);
+          }
+        }
+        if (!removedId) {
+          return;
+        }
+        saveCustomThemes(themes);
+        ensureCustomThemeStyles(themes);
+        renderCustomThemes();
+        if (current === removedId) {
+          applyTheme(DEFAULT_THEME);
+        }
+      }
+
+      function loadCredits() {
+        try {
+          const stored = localStorage.getItem(CREDITS_STORAGE_KEY);
+          const parsed = Number(stored);
+          if (Number.isFinite(parsed) && parsed >= 0) {
+            return Math.floor(parsed);
+          }
+          localStorage.setItem(CREDITS_STORAGE_KEY, String(DEFAULT_CREDITS));
+          return DEFAULT_CREDITS;
+        } catch (error) {
+          return DEFAULT_CREDITS;
+        }
+      }
+
+      function updateCreditsButton() {
+        if (!creditsBtn) {
+          return;
+        }
+        const value = loadCredits();
+        const valueEl = creditsBtn.querySelector(".credits-value");
+        if (valueEl) {
+          valueEl.textContent = String(value);
+        } else {
+          creditsBtn.textContent = `Subscription ${value}`;
+        }
+        creditsBtn.setAttribute("aria-label", `Subscription credits: ${value}`);
+        creditsBtn.title = `Subscription credits: ${value}`;
+      }
+
+      function loadProfile() {
+        let name = "";
+        let email = "";
+        let plan = DEFAULT_PLAN;
+        let password = "";
+        let planSet = false;
+
+        try {
+          name = localStorage.getItem(PROFILE_NAME_KEY) || "";
+        } catch (error) {
+          name = "";
+        }
+
+        try {
+          email = localStorage.getItem(PROFILE_EMAIL_KEY) || "";
+        } catch (error) {
+          email = "";
+        }
+
+        try {
+          const storedPlan = localStorage.getItem(PROFILE_PLAN_KEY);
+          if (storedPlan) {
+            plan = storedPlan;
+            planSet = true;
+          }
+        } catch (error) {
+          plan = DEFAULT_PLAN;
+        }
+
+        try {
+          password = localStorage.getItem(PROFILE_PASSWORD_KEY) || "";
+        } catch (error) {
+          password = "";
+        }
+
+        try {
+          const raw = localStorage.getItem(PROFILE_ACCOUNT_KEY);
+          const account = raw ? JSON.parse(raw) : null;
+          if (account) {
+            if (!name && account.name) {
+              name = account.name;
+            }
+            if (!email && account.email) {
+              email = account.email;
+            }
+            if (!password && account.password) {
+              password = account.password;
+            }
+            if (!planSet && account.plan) {
+              plan = account.plan;
+            }
+          }
+        } catch (error) {
+          // ignore storage failures
+        }
+
+        return { name, email, plan, password };
+      }
+
+      function saveProfile() {
+        const nameValue = profileNameInput ? profileNameInput.value.trim() : "";
+        const emailValue = profileEmail ? profileEmail.value.trim() : "";
+        const passwordValue = profilePassword ? profilePassword.value : "";
+        const planValue = profilePlan ? profilePlan.value || DEFAULT_PLAN : DEFAULT_PLAN;
+
+        if (profileNameInput) {
+          try {
+            if (nameValue) {
+              localStorage.setItem(PROFILE_NAME_KEY, nameValue);
+            } else {
+              localStorage.removeItem(PROFILE_NAME_KEY);
+            }
+          } catch (error) {
+            // ignore storage failures
+          }
+        }
+
+        if (profileEmail) {
+          try {
+            if (emailValue) {
+              localStorage.setItem(PROFILE_EMAIL_KEY, emailValue);
+            } else {
+              localStorage.removeItem(PROFILE_EMAIL_KEY);
+            }
+          } catch (error) {
+            // ignore storage failures
+          }
+        }
+
+        if (profilePassword) {
+          try {
+            if (passwordValue) {
+              localStorage.setItem(PROFILE_PASSWORD_KEY, passwordValue);
+            } else {
+              localStorage.removeItem(PROFILE_PASSWORD_KEY);
+            }
+          } catch (error) {
+            // ignore storage failures
+          }
+        }
+
+        if (profilePlan) {
+          try {
+            localStorage.setItem(PROFILE_PLAN_KEY, planValue);
+          } catch (error) {
+            // ignore storage failures
+          }
+        }
+
+        try {
+          if (nameValue || emailValue || passwordValue) {
+            const raw = localStorage.getItem(PROFILE_ACCOUNT_KEY);
+            const existing = raw ? JSON.parse(raw) : null;
+            const createdAt = existing?.createdAt || new Date().toISOString();
+            const account = {
+              name: nameValue,
+              email: emailValue,
+              password: passwordValue,
+              plan: planValue,
+              createdAt,
+              lastLoginAt: new Date().toISOString(),
+            };
+            localStorage.setItem(PROFILE_ACCOUNT_KEY, JSON.stringify(account));
+          } else {
+            localStorage.removeItem(PROFILE_ACCOUNT_KEY);
+          }
+        } catch (error) {
+          // ignore storage failures
+        }
+
+        updateProfileButton();
+      }
+
+      function updateProfileButton() {
+        if (!profileBtn) {
+          return;
+        }
+        const { name, email, plan } = loadProfile();
+        const base = name || email || "Account";
+        const label = `${base} (${plan})`;
+        profileBtn.setAttribute("aria-label", label);
+        profileBtn.title = label;
+      }
+
+      function applyProfile() {
+        const { name, email, plan, password } = loadProfile();
+        if (profileNameInput) {
+          profileNameInput.value = name;
+        }
+        if (profileEmail) {
+          profileEmail.value = email;
+        }
+        if (profilePassword) {
+          profilePassword.value = password;
+        }
+        if (profilePlan) {
+          profilePlan.value = plan;
+        }
+        updateProfileButton();
+      }
+
+      function setProfileMenuOpen(isOpen) {
+        if (!profileMenu || !profileBtn) {
+          return;
+        }
+        profileMenu.classList.toggle("hidden", !isOpen);
+        profileBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      }
+
+      function handleProfileButtonClick(event) {
+        event.stopPropagation();
+        if (!profileMenu) {
+          return;
+        }
+        setProfileMenuOpen(profileMenu.classList.contains("hidden"));
+      }
+      function setAddMenuOpen(isOpen) {
+        if (!addMenu || !addBtn) {
+          return;
+        }
+        addMenu.classList.toggle("hidden", !isOpen);
+        addBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      }
+
+      function handleAddButtonClick(event) {
+        event.stopPropagation();
+        if (!addMenu) {
+          return;
+        }
+        setAddMenuOpen(addMenu.classList.contains("hidden"));
+      }
+
+      function copyInviteLink(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        return new Promise((resolve) => {
+          const input = document.createElement("textarea");
+          input.value = text;
+          input.setAttribute("readonly", "");
+          input.style.position = "absolute";
+          input.style.left = "-9999px";
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand("copy");
+          document.body.removeChild(input);
+          resolve();
+        });
+      }
+
+      function buildInviteLink() {
+        try {
+          return new URL("index.html", window.location.href).toString();
+        } catch (error) {
+          return window.location.href;
+        }
+      }
+
+      function openInviteEmail(link) {
+        const email = window.prompt("Enter an email to invite:", "");
+        if (email === null) {
+          return false;
+        }
+        const defaultMessage = `Join me on CAMERA IRIS.\n\n${link}`;
+        const message = window.prompt("Write a message for the invite email:", defaultMessage);
+        if (message === null) {
+          return false;
+        }
+        const trimmed = message.trim();
+        const finalMessage = trimmed.includes(link)
+          ? trimmed
+          : `${trimmed ? `${trimmed}\n\n` : ""}${link}`;
+        const subject = "Join me on CAMERA IRIS";
+        const mailto = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(finalMessage)}`;
+        window.location.href = mailto;
+        return true;
+      }
+
+      function handleInviteClick(event) {
+        event.stopPropagation();
+        if (!inviteBtn) {
+          return;
+        }
+        const link = buildInviteLink();
+        copyInviteLink(link).then(() => {
+          const original = inviteBtn.textContent;
+          inviteBtn.textContent = "Copied!";
+          setTimeout(() => {
+            inviteBtn.textContent = original;
+          }, 1200);
+        });
+        openInviteEmail(link);
+        setAddMenuOpen(false);
+      }
+
+      function handlePostClick(event) {
+        event.stopPropagation();
+        const input = document.getElementById("profileAddInput");
+        if (input) {
+          input.click();
+          setAddMenuOpen(false);
+          return;
+        }
+        try {
+          localStorage.setItem("cameraIrisOpenPostUpload", "true");
+        } catch (error) {
+          // ignore storage failures
+        }
+        window.location.href = "profile.html";
+      }
+
+
+
+      if (notifyBtn) {
+        notifyBtn.addEventListener("click", handleNotifyClick);
+      }
+      if (profileBtn) {
+        profileBtn.addEventListener("click", handleProfileButtonClick);
+      }
+      if (profileMenu) {
+        profileMenu.addEventListener("click", (event) => {
+          event.stopPropagation();
+        });
+      }
+      if (profileSaveBtn) {
+        profileSaveBtn.addEventListener("click", () => {
+          saveProfile();
+          setProfileMenuOpen(false);
+        });
+      }
+      if (themeBtn) {
+        themeBtn.addEventListener("click", handleThemeButtonClick);
+      }
+      if (themeMenu) {
+        themeMenu.addEventListener("click", (event) => {
+          event.stopPropagation();
+        });
+      }
+      if (themeCreateBtn) {
+        themeCreateBtn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          if (!themeCreatePanel) {
+            return;
+          }
+          themeCreatePanel.classList.toggle("hidden");
+          if (!themeCreatePanel.classList.contains("hidden") && themeCreateInput) {
+            themeCreateInput.focus();
+          }
+        });
+      }
+      if (themeCreateInput) {
+        themeCreateInput.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            addCustomThemeFromPrompt();
+          }
+        });
+      }
+      if (themeCreateAdd) {
+        themeCreateAdd.addEventListener("click", (event) => {
+          event.stopPropagation();
+          addCustomThemeFromPrompt();
+        });
+      }
+      if (themeCreateDelete) {
+        themeCreateDelete.addEventListener("click", (event) => {
+          event.stopPropagation();
+          deleteCustomThemeFromPrompt();
+        });
+      }
+      themeOptions.forEach((option) => {
+        option.addEventListener("click", handleThemeOptionClick);
+      });
+      if (addBtn) {
+        addBtn.addEventListener("click", handleAddButtonClick);
+      }
+      if (addMenu) {
+        addMenu.addEventListener("click", (event) => {
+          event.stopPropagation();
+        });
+      }
+      if (inviteBtn) {
+        inviteBtn.addEventListener("click", handleInviteClick);
+      }
+      if (postBtn) {
+        postBtn.addEventListener("click", handlePostClick);
+      }
+
+      document.addEventListener("click", () => {
+        setThemeMenuOpen(false);
+        setAddMenuOpen(false);
+        setProfileMenuOpen(false);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          setThemeMenuOpen(false);
+          setAddMenuOpen(false);
+          setProfileMenuOpen(false);
+        }
+      });
+
+      updateNotifyButton();
+      updateCreditsButton();
+      ensureCustomThemeStyles(loadCustomThemes());
+      renderCustomThemes();
+      applyTheme(loadThemePreference());
+      applyProfile();
+
+      const root = document.documentElement;
+      let holeTargetX = 0.5;
+      let holeTargetY = 0.45;
+      let holeX = 0.5;
+      let holeY = 0.45;
+
+      function setHolePosition(x, y) {
+        root.style.setProperty("--hole-x", `${x * 100}%`);
+        root.style.setProperty("--hole-y", `${y * 100}%`);
+        root.style.setProperty("--nebula-x", `${x * 100}%`);
+        root.style.setProperty("--nebula-y", `${y * 100}%`);
+      }
+
+      function onPointerMove(event) {
+        const width = window.innerWidth || 1;
+        const height = window.innerHeight || 1;
+        holeTargetX = Math.min(Math.max(event.clientX / width, 0.1), 0.9);
+        holeTargetY = Math.min(Math.max(event.clientY / height, 0.1), 0.9);
+      }
+
+      function animateBlackhole() {
+        holeX += (holeTargetX - holeX) * 0.08;
+        holeY += (holeTargetY - holeY) * 0.08;
+        setHolePosition(holeX, holeY);
+        window.requestAnimationFrame(animateBlackhole);
+      }
+
+      setHolePosition(holeX, holeY);
+      window.addEventListener("pointermove", onPointerMove);
+      window.addEventListener("pointerdown", onPointerMove);
+      animateBlackhole();
+    </script>
+      <script src="search.js"></script>
+      <script src="notifications.js"></script>
+  </body>
+</html>

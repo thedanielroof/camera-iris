@@ -1,0 +1,6 @@
+.env
+node_modules/
+secure-keys/*
+!secure-keys/.gitignore
+!secure-keys/README.md
+apikeys.env/
