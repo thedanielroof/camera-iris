@@ -445,6 +445,62 @@ body {
   --text-dim: #8aa0c8;
 }
 
+:root[data-theme="snow"] {
+  --bg-0: #e8eef5;
+  --bg-1: #dde5f0;
+  --panel: rgba(240, 245, 252, 0.92);
+  --panel-border: rgba(180, 200, 225, 0.5);
+  --panel-strong: rgba(235, 240, 250, 0.96);
+  --accent-rgb: 70 130 200;
+  --accent-border-rgb: 100 160 220;
+  --accent-strong-rgb: 50 110 185;
+  --accent-deep-rgb: 40 100 170;
+  --accent-soft-rgb: 120 170 230;
+  --accent-text: #2a5a8a;
+  --accent-text-strong: #1a3a60;
+  --accent-text-soft: #3a6a9a;
+  --accent-text-muted: #5080aa;
+  --accent-text-bright: #102840;
+  --accent-text-alt: #3060a0;
+  --accent-text-dim: #6090b8;
+  --accent-text-badge: #2a5080;
+  --accent-text-title: #1e3c62;
+  --accent-text-metrics: #2a5a8a;
+  --accent-text-meta: #4878a8;
+  --accent-text-header: #3a6090;
+  --text-main: #1a2a3a;
+  --text-dim: #5a7090;
+  --danger: #d04040;
+  --success: #2a8a5a;
+  --shadow: rgba(100, 130, 170, 0.15);
+}
+
+:root[data-theme="ocean"] {
+  --bg-0: #020a14;
+  --bg-1: #041220;
+  --panel: rgba(3, 12, 24, 0.94);
+  --panel-strong: rgba(2, 8, 18, 0.97);
+  --accent-rgb: 50 180 240;
+  --accent-border-rgb: 80 200 255;
+  --accent-strong-rgb: 160 230 255;
+  --accent-deep-rgb: 20 120 180;
+  --accent-soft-rgb: 100 200 255;
+  --accent-text: #b0e4ff;
+  --accent-text-strong: #ddf3ff;
+  --accent-text-soft: #88d4ff;
+  --accent-text-muted: #60c0f0;
+  --accent-text-bright: #f0faff;
+  --accent-text-alt: #a0ddff;
+  --accent-text-dim: #50b0e8;
+  --accent-text-badge: #c8ecff;
+  --accent-text-title: #d5f0ff;
+  --accent-text-metrics: #b8e6ff;
+  --accent-text-meta: #70c8f5;
+  --accent-text-header: #68c0f0;
+  --text-main: #ddf3ff;
+  --text-dim: #6a9ab8;
+}
+
 :root[data-theme="bananas"] body {
   background: radial-gradient(circle at 30% 20%, rgba(80, 65, 0, 0.5) 0%, transparent 40%),
     radial-gradient(circle at 70% 80%, rgba(60, 50, 0, 0.4) 0%, transparent 40%),
@@ -496,6 +552,107 @@ body {
 
 :root[data-theme="clouds"] .backdrop {
   opacity: 0.06;
+}
+
+:root[data-theme="snow"] body {
+  background: linear-gradient(180deg, #d0dcea 0%, #e0e8f2 30%, #eaf0f8 60%, #d5e0ee 100%);
+}
+
+:root[data-theme="snow"] .blackhole {
+  opacity: 0;
+}
+
+:root[data-theme="snow"] .glow {
+  opacity: 0;
+}
+
+:root[data-theme="snow"] .backdrop {
+  opacity: 0.04;
+}
+
+:root[data-theme="snow"] .panel {
+  background: rgba(245, 248, 255, 0.88);
+  border-color: rgba(180, 200, 225, 0.5);
+  box-shadow: 0 8px 30px rgba(100, 130, 170, 0.12);
+}
+
+:root[data-theme="snow"] .section {
+  background: rgba(235, 242, 252, 0.7);
+  border-color: rgba(170, 195, 225, 0.4);
+}
+
+:root[data-theme="snow"] .topbar {
+  background: rgba(240, 245, 255, 0.85);
+  border-color: rgba(180, 200, 225, 0.5);
+  box-shadow: 0 6px 20px rgba(100, 130, 170, 0.1);
+}
+
+:root[data-theme="snow"] input[type="text"],
+:root[data-theme="snow"] input[type="email"],
+:root[data-theme="snow"] input[type="password"],
+:root[data-theme="snow"] input[type="url"],
+:root[data-theme="snow"] input[type="number"],
+:root[data-theme="snow"] input[type="file"],
+:root[data-theme="snow"] textarea,
+:root[data-theme="snow"] select {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(170, 195, 225, 0.5);
+  color: #1a2a3a;
+}
+
+:root[data-theme="snow"] .result-card {
+  background: rgba(245, 248, 255, 0.8);
+  border-color: rgba(180, 200, 225, 0.4);
+}
+
+:root[data-theme="snow"] .toggle {
+  background: rgba(230, 240, 252, 0.6);
+  border-color: rgba(170, 195, 225, 0.35);
+  color: #2a5080;
+}
+
+:root[data-theme="snow"] .theme-menu,
+:root[data-theme="snow"] .profile-menu,
+:root[data-theme="snow"] .nav-dropdown-menu {
+  background: rgba(240, 245, 255, 0.95);
+  border-color: rgba(180, 200, 225, 0.5);
+}
+
+:root[data-theme="snow"] .theme-option {
+  background: rgba(230, 240, 252, 0.6);
+  border-color: rgba(170, 195, 225, 0.4);
+  color: #2a5080;
+}
+
+:root[data-theme="snow"] .primary-btn {
+  color: #ffffff;
+}
+
+:root[data-theme="snow"] #generateBtn {
+  color: #ffffff;
+}
+
+:root[data-theme="snow"] .status-row,
+:root[data-theme="snow"] .feed-header,
+:root[data-theme="snow"] .feed-composer {
+  background: rgba(235, 242, 252, 0.6);
+  border-color: rgba(170, 195, 225, 0.35);
+}
+
+:root[data-theme="ocean"] body {
+  background: linear-gradient(180deg, #041828 0%, #062040 20%, #0a3060 45%, #082848 70%, #041220 100%);
+}
+
+:root[data-theme="ocean"] .blackhole {
+  opacity: 0;
+}
+
+:root[data-theme="ocean"] .glow {
+  opacity: 0;
+}
+
+:root[data-theme="ocean"] .backdrop {
+  opacity: 0.08;
 }
 
 :root[data-theme="purple"] .backdrop {

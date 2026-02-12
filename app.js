@@ -1960,7 +1960,7 @@ async function handleGenerate(event) {
   syncModelPanels();
 
   const settings = collectSettings();
-  const totalCount = Math.min(Math.max(settings.output.count, 1), 50);
+  const totalCount = Math.min(Math.max(settings.output.count, 1), 8);
 
   if (!settings.prompt) {
     setStatus("Prompt is required before generation.", "error");
