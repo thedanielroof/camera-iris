@@ -14,6 +14,8 @@ const heightInput = document.getElementById("height");
 const aspectRatioInput = document.getElementById("aspectRatio");
 const promptInput = document.getElementById("prompt");
 const sizeButtons = document.querySelectorAll(".size-btn");
+const countButtons = document.querySelectorAll(".count-btn");
+const outputCountInput = document.getElementById("outputCount");
 const modelButtons = document.querySelectorAll(".model-btn");
 const modeButtons = document.querySelectorAll(".mode-btn");
 const saveFolderSelect = document.getElementById("saveFolder");
@@ -1958,6 +1960,7 @@ async function handleGenerate(event) {
   syncModelPanels();
 
   const settings = collectSettings();
+  const totalCount = Math.min(Math.max(settings.output.count, 1), 50);
 
   if (!settings.prompt) {
     setStatus("Prompt is required before generation.", "error");
@@ -1965,53 +1968,86 @@ async function handleGenerate(event) {
   }
 
   setBusy(true);
-  setStatus("Building generation request...");
 
-  // Show loading placeholder immediately
-  const placeholderCard = resultCardTemplate.content.firstElementChild.cloneNode(true);
-  const placeholderWrap = placeholderCard.querySelector(".result-media-wrap");
-  const placeholderCaption = placeholderCard.querySelector(".result-caption");
-  const placeholderOwnerRow = placeholderCard.querySelector(".result-owner-row");
-  if (placeholderOwnerRow) placeholderOwnerRow.classList.add("hidden");
-  if (placeholderWrap) {
-    placeholderWrap.classList.add("developing");
-    placeholderWrap.innerHTML = `
-      <div class="developing-placeholder">
-        <div class="developing-spinner"></div>
-        <span>Developing image...</span>
-        <div class="developing-progress"><div class="developing-progress-bar"></div></div>
-      </div>`;
+  // Create placeholder cards for each render
+  const placeholders = [];
+  for (let i = 0; i < totalCount; i++) {
+    const card = resultCardTemplate.content.firstElementChild.cloneNode(true);
+    const wrap = card.querySelector(".result-media-wrap");
+    const caption = card.querySelector(".result-caption");
+    const ownerRow = card.querySelector(".result-owner-row");
+    if (ownerRow) ownerRow.classList.add("hidden");
+    if (wrap) {
+      wrap.classList.add("developing");
+      wrap.innerHTML = `
+        <div class="developing-placeholder">
+          <div class="developing-spinner"></div>
+          <span>Rendering ${i + 1} of ${totalCount}...</span>
+          <div class="developing-progress"><div class="developing-progress-bar"></div></div>
+        </div>`;
+    }
+    if (caption) caption.textContent = settings.prompt;
+    resultGrid.prepend(card);
+    placeholders.push(card);
   }
-  if (placeholderCaption) {
-    placeholderCaption.textContent = settings.prompt;
-  }
-  resultGrid.prepend(placeholderCard);
+
+  setStatus(`Generating ${totalCount} image${totalCount > 1 ? "s" : ""}...`);
 
   try {
     const reference = await readReferenceData(document.getElementById("referenceInput"));
-    const payload = buildPayload(settings, reference);
-    setStatus(settings.connection.mockMode ? "Rendering..." : "Generating image...");
+    let allOutputs = [];
 
-    const outputs = settings.connection.mockMode
-      ? await runMockGeneration(settings, payload)
-      : await callApi(settings, payload);
+    if (settings.connection.mockMode) {
+      const payload = buildPayload(settings, reference);
+      allOutputs = await runMockGeneration(settings, payload);
+    } else {
+      // Fire parallel API calls — one per image for maximum speed
+      const BATCH_SIZE = 5; // max concurrent requests
+      const batches = [];
+      for (let i = 0; i < totalCount; i += BATCH_SIZE) {
+        batches.push(totalCount - i < BATCH_SIZE ? totalCount - i : BATCH_SIZE);
+      }
 
-    persistGeneratedAssets(outputs, settings);
+      let completed = 0;
+      for (const batchCount of batches) {
+        const promises = [];
+        for (let j = 0; j < batchCount; j++) {
+          const singleSettings = { ...settings, output: { ...settings.output, count: 1 } };
+          const payload = buildPayload(singleSettings, reference);
+          promises.push(
+            callApi(singleSettings, payload).then((results) => {
+              completed++;
+              setStatus(`Rendered ${completed} of ${totalCount}...`);
+              return results;
+            }).catch((err) => {
+              completed++;
+              console.error(`Render ${completed} failed:`, err);
+              return [];
+            })
+          );
+        }
+        const batchResults = await Promise.all(promises);
+        batchResults.forEach((results) => {
+          allOutputs = allOutputs.concat(results);
+        });
+      }
+    }
 
-    // Remove placeholder and rebuild entire feed from localStorage
-    // This keeps the DOM in sync with persisted data so deleted items never linger
-    placeholderCard.remove();
+    persistGeneratedAssets(allOutputs, settings);
+
+    // Remove all placeholders and rebuild feed from localStorage
+    placeholders.forEach((p) => p.remove());
     renderFeed({ quiet: true, revealAge: 10000 });
 
     runtime.jobs += 1;
-    runtime.assets += outputs.length;
+    runtime.assets += allOutputs.length;
     updateCounters();
 
-    setStatus(`Completed job #${runtime.jobs}. Rendered ${outputs.length} asset(s).`, "success");
-    notifyCompletion(outputs.length, settings.mode);
+    setStatus(`Completed job #${runtime.jobs}. Rendered ${allOutputs.length} asset(s).`, "success");
+    notifyCompletion(allOutputs.length, settings.mode);
   } catch (error) {
     console.error(error);
-    placeholderCard.remove();
+    placeholders.forEach((p) => p.remove());
     setStatus(error.message || "Generation failed.", "error");
   } finally {
     setBusy(false);
@@ -2143,6 +2179,18 @@ sizeButtons.forEach((button) => {
     }
     applySizePreset(size);
     sizeButtons.forEach((btn) => {
+      btn.classList.toggle("active", btn === button);
+    });
+  });
+});
+
+countButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const count = button.dataset.count;
+    if (outputCountInput) {
+      outputCountInput.value = count;
+    }
+    countButtons.forEach((btn) => {
       btn.classList.toggle("active", btn === button);
     });
   });

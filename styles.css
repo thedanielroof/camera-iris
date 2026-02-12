@@ -1556,6 +1556,44 @@ body {
   gap: 8px;
 }
 
+.render-count-row {
+  margin-top: 8px;
+}
+
+.render-count-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.count-btn {
+  border: 1px solid rgb(var(--accent-border-rgb) / 0.4);
+  border-radius: 999px;
+  padding: 5px 12px;
+  background: rgb(var(--accent-rgb) / 0.08);
+  color: var(--accent-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.16s ease, transform 0.16s ease, border-color 0.16s ease;
+  min-width: 36px;
+  text-align: center;
+}
+
+.count-btn:hover {
+  background: rgb(var(--accent-rgb) / 0.16);
+  border-color: rgb(var(--accent-strong-rgb) / 0.7);
+  transform: translateY(-1px);
+}
+
+.count-btn.active {
+  background: rgb(var(--accent-rgb) / 0.28);
+  border-color: rgb(var(--accent-strong-rgb) / 0.9);
+  color: var(--accent-text-strong);
+}
+
 .size-btn {
   border: 1px solid rgb(var(--accent-border-rgb) / 0.4);
   border-radius: 999px;
