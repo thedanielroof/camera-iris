@@ -4,3 +4,4 @@ secure-keys/*
 !secure-keys/.gitignore
 !secure-keys/README.md
 apikeys.env/
+.DS_Store
