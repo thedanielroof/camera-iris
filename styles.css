@@ -3452,68 +3452,56 @@ input[type="range"] {
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* --- Topbar: icon-only row + controls row --- */
+  /* --- Topbar: 2-row grid of 6 icons each --- */
   .topbar {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
     gap: 6px;
-    padding: 8px 10px;
+    padding: 10px;
     border-radius: 14px;
     top: 4px;
     margin-bottom: 8px;
+    justify-items: center;
+    align-items: center;
   }
 
-  .home-btn {
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
+  /* All topbar children flow into the grid */
+  .topbar > *,
+  .top-nav > *,
+  .top-controls > * {
+    display: contents;
   }
 
-  .logo-eye svg {
-    width: 17px;
-    height: 17px;
+  /* But actual buttons should be flex, not contents */
+  .topbar a,
+  .topbar button,
+  .topbar .nav-dropdown,
+  .topbar .theme-menu-wrap,
+  .topbar .profile-menu-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* Nav row: centered icons */
   .top-nav {
-    margin-left: 0;
-    flex: 1;
-    min-width: 0;
-    gap: 6px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-    justify-content: center;
-    align-items: center;
+    display: contents;
   }
 
-  .top-nav::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Controls row: centered icons */
   .top-controls {
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    border-top: 1px solid rgb(var(--accent-border-rgb) / 0.12);
-    padding-top: 6px;
-    margin-top: 2px;
+    display: contents;
   }
 
   /* --- All topbar buttons: uniform icon circles --- */
+  .home-btn,
   .nav-btn,
   .notify-btn,
   .search-btn,
   .credits-btn,
   .theme-btn,
   .profile-btn {
-    width: 36px;
-    min-width: 36px;
-    height: 36px;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
     padding: 0;
     border-radius: 50%;
     gap: 0;
@@ -3524,6 +3512,11 @@ input[type="range"] {
     flex-shrink: 0;
   }
 
+  .logo-eye svg {
+    width: 18px;
+    height: 18px;
+  }
+
   /* All icons same size */
   .nav-btn .nav-icon svg,
   .notify-btn .nav-icon svg,
@@ -3531,8 +3524,8 @@ input[type="range"] {
   .credits-symbol svg,
   .theme-btn .nav-icon svg,
   .profile-btn .nav-icon svg {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
   }
 
   /* Hide all text labels */
@@ -3540,7 +3533,8 @@ input[type="range"] {
   .notify-text,
   .search-text,
   .credits-text,
-  .credits-value {
+  .credits-value,
+  .home-text {
     display: none !important;
   }
 
@@ -3553,8 +3547,8 @@ input[type="range"] {
   .credits-btn:focus-visible,
   .home-btn:hover,
   .home-btn:focus-visible {
-    width: 36px;
-    min-width: 36px;
+    width: 40px;
+    min-width: 40px;
     padding: 0;
     border-radius: 50%;
     gap: 0;
@@ -3573,6 +3567,11 @@ input[type="range"] {
 
   .nav-spacer {
     display: none;
+  }
+
+  /* Nav dropdown should just show the button */
+  .nav-dropdown {
+    position: relative;
   }
 
   /* --- Dropdown menus on mobile --- */
@@ -3935,25 +3934,26 @@ input[type="range"] {
     top: 3px;
   }
 
-  .home-btn {
-    width: 32px;
-    height: 32px;
+  .topbar {
+    gap: 4px;
+    padding: 8px 6px;
   }
 
-  .logo-eye svg {
-    width: 15px;
-    height: 15px;
-  }
-
+  .home-btn,
   .nav-btn,
   .notify-btn,
   .search-btn,
   .credits-btn,
   .theme-btn,
   .profile-btn {
-    width: 32px;
-    min-width: 32px;
-    height: 32px;
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+  }
+
+  .logo-eye svg {
+    width: 16px;
+    height: 16px;
   }
 
   .nav-btn .nav-icon svg,
@@ -3962,20 +3962,20 @@ input[type="range"] {
   .credits-symbol svg,
   .theme-btn .nav-icon svg,
   .profile-btn .nav-icon svg {
-    width: 15px;
-    height: 15px;
+    width: 16px;
+    height: 16px;
   }
 
+  .home-btn:hover,
+  .home-btn:focus-visible,
   .nav-btn:hover,
   .nav-btn:focus-visible,
   .search-btn:hover,
   .search-btn:focus-visible,
   .credits-btn:hover,
-  .credits-btn:focus-visible,
-  .home-btn:hover,
-  .home-btn:focus-visible {
-    width: 32px;
-    min-width: 32px;
+  .credits-btn:focus-visible {
+    width: 34px;
+    min-width: 34px;
     padding: 0;
     border-radius: 50%;
   }
