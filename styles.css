@@ -632,6 +632,16 @@ body {
   color: #ffffff;
 }
 
+:root[data-theme="snow"] *,
+:root[data-theme="snow"] input,
+:root[data-theme="snow"] textarea,
+:root[data-theme="snow"] select,
+:root[data-theme="snow"] button,
+:root[data-theme="snow"] a,
+:root[data-theme="snow"] label {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><path d='M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.6 6-9.5 6-9.5-6-9.5-6Z' fill='none' stroke='%23000000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='12' cy='12' r='3.2' fill='none' stroke='%23000000' stroke-width='1.6'/></svg>") 12 12, auto;
+}
+
 :root[data-theme="snow"] .status-row,
 :root[data-theme="snow"] .feed-header,
 :root[data-theme="snow"] .feed-composer {
