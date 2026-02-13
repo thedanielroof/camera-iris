@@ -445,6 +445,32 @@ body {
   --text-dim: #8aa0c8;
 }
 
+:root[data-theme="fire"] {
+  --bg-0: #0a0200;
+  --bg-1: #120400;
+  --panel: rgba(14, 4, 0, 0.94);
+  --panel-strong: rgba(10, 2, 0, 0.97);
+  --accent-rgb: 255 100 20;
+  --accent-border-rgb: 255 140 50;
+  --accent-strong-rgb: 255 190 120;
+  --accent-deep-rgb: 200 60 0;
+  --accent-soft-rgb: 255 130 60;
+  --accent-text: #ffc090;
+  --accent-text-strong: #ffe0c8;
+  --accent-text-soft: #ffaa70;
+  --accent-text-muted: #ff9050;
+  --accent-text-bright: #fff0e0;
+  --accent-text-alt: #ffb880;
+  --accent-text-dim: #ff8040;
+  --accent-text-badge: #ffd0a8;
+  --accent-text-title: #ffd8b8;
+  --accent-text-metrics: #ffc498;
+  --accent-text-meta: #ff9858;
+  --accent-text-header: #ff9450;
+  --text-main: #ffe8d8;
+  --text-dim: #c89070;
+}
+
 :root[data-theme="snow"] {
   --bg-0: #e8eef5;
   --bg-1: #dde5f0;
@@ -552,6 +578,22 @@ body {
 
 :root[data-theme="clouds"] .backdrop {
   opacity: 0.06;
+}
+
+:root[data-theme="fire"] body {
+  background: linear-gradient(180deg, #0a0200 0%, #1a0800 25%, #200a00 50%, #140500 75%, #0a0200 100%);
+}
+
+:root[data-theme="fire"] .blackhole {
+  opacity: 0;
+}
+
+:root[data-theme="fire"] .glow {
+  opacity: 0;
+}
+
+:root[data-theme="fire"] .backdrop {
+  opacity: 0.08;
 }
 
 :root[data-theme="snow"] body {
