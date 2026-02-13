@@ -445,6 +445,32 @@ body {
   --text-dim: #8aa0c8;
 }
 
+:root[data-theme="elden-ring"] {
+  --bg-0: #0a0804;
+  --bg-1: #100c06;
+  --panel: rgba(12, 10, 5, 0.94);
+  --panel-strong: rgba(8, 6, 3, 0.97);
+  --accent-rgb: 210 170 70;
+  --accent-border-rgb: 230 190 90;
+  --accent-strong-rgb: 245 220 140;
+  --accent-deep-rgb: 160 120 30;
+  --accent-soft-rgb: 220 185 100;
+  --accent-text: #e8d090;
+  --accent-text-strong: #f5e8c0;
+  --accent-text-soft: #d4b870;
+  --accent-text-muted: #c0a050;
+  --accent-text-bright: #fff4d8;
+  --accent-text-alt: #dcc480;
+  --accent-text-dim: #b89840;
+  --accent-text-badge: #edd8a0;
+  --accent-text-title: #f0dca8;
+  --accent-text-metrics: #e4cc90;
+  --accent-text-meta: #c8a858;
+  --accent-text-header: #c4a450;
+  --text-main: #f0e4c8;
+  --text-dim: #a89060;
+}
+
 :root[data-theme="fire"] {
   --bg-0: #0a0200;
   --bg-1: #120400;
@@ -577,6 +603,23 @@ body {
 }
 
 :root[data-theme="clouds"] .backdrop {
+  opacity: 0.06;
+}
+
+:root[data-theme="elden-ring"] body {
+  background: radial-gradient(ellipse at 50% 10%, rgba(80, 60, 20, 0.25) 0%, transparent 50%),
+    linear-gradient(180deg, #0c0a04 0%, #100c06 20%, #0e0b05 50%, #0a0804 80%, #080604 100%);
+}
+
+:root[data-theme="elden-ring"] .blackhole {
+  opacity: 0;
+}
+
+:root[data-theme="elden-ring"] .glow {
+  opacity: 0;
+}
+
+:root[data-theme="elden-ring"] .backdrop {
   opacity: 0.06;
 }
 
@@ -1652,6 +1695,14 @@ body {
   --swatch-border-rgb: 160 190 225;
   --swatch-text: #1a3a60;
   --swatch-text-strong: #102840;
+}
+
+.theme-option[data-theme="elden-ring"] {
+  --swatch-rgb: 210 170 70;
+  --swatch-strong-rgb: 245 220 140;
+  --swatch-border-rgb: 230 190 90;
+  --swatch-text: #e8d090;
+  --swatch-text-strong: #f5e8c0;
 }
 
 .theme-option[data-theme="fire"] {
