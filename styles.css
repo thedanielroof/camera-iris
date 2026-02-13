@@ -1614,6 +1614,54 @@ body {
   --swatch-text-strong: #fff9e6;
 }
 
+.theme-option[data-theme="bananas"] {
+  --swatch-rgb: 255 220 50;
+  --swatch-strong-rgb: 255 245 170;
+  --swatch-border-rgb: 255 235 100;
+  --swatch-text: #fff5c0;
+  --swatch-text-strong: #fffbe8;
+}
+
+.theme-option[data-theme="space"] {
+  --swatch-rgb: 140 160 255;
+  --swatch-strong-rgb: 210 220 255;
+  --swatch-border-rgb: 170 185 255;
+  --swatch-text: #c8d2ff;
+  --swatch-text-strong: #e8edff;
+}
+
+.theme-option[data-theme="clouds"] {
+  --swatch-rgb: 160 200 255;
+  --swatch-strong-rgb: 220 235 255;
+  --swatch-border-rgb: 180 215 255;
+  --swatch-text: #c8dfff;
+  --swatch-text-strong: #e8f2ff;
+}
+
+.theme-option[data-theme="ocean"] {
+  --swatch-rgb: 50 180 240;
+  --swatch-strong-rgb: 160 230 255;
+  --swatch-border-rgb: 80 200 255;
+  --swatch-text: #b0e4ff;
+  --swatch-text-strong: #ddf3ff;
+}
+
+.theme-option[data-theme="snow"] {
+  --swatch-rgb: 200 220 245;
+  --swatch-strong-rgb: 50 110 185;
+  --swatch-border-rgb: 160 190 225;
+  --swatch-text: #1a3a60;
+  --swatch-text-strong: #102840;
+}
+
+.theme-option[data-theme="fire"] {
+  --swatch-rgb: 255 100 20;
+  --swatch-strong-rgb: 255 190 120;
+  --swatch-border-rgb: 255 140 50;
+  --swatch-text: #ffc090;
+  --swatch-text-strong: #ffe0c8;
+}
+
 .notify-btn:disabled {
   cursor: not-allowed;
   opacity: 0.6;
