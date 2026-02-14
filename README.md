@@ -36,3 +36,12 @@ Open `http://localhost:8080`.
 - `app.js`: model logic, payload building, API integration
 - `server.js`: secure proxy + static file server
 - `.env.example`: environment variable template
+
+
+## Arctic Penguin Maze Game
+
+A mobile-friendly arcade maze game is available at:
+
+- `http://localhost:8080/arctic-penguin.html`
+
+Controls: use the on-screen joystick to guide the penguin through an arctic ice maze and collect all 100 gold fish.

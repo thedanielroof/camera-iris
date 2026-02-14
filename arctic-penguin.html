@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Arctic Penguin Maze</title>
+  <style>
+    :root {
+      --hud-bg: rgba(4, 15, 36, 0.68);
+      --ice-wall: #b8ebff;
+      --ice-wall-dark: #7bc9e8;
+      --snow: #f5fbff;
+      --fish: #ffd94d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #bbecff, #66a7cd 55%, #2f5d81);
+      color: #fff;
+      touch-action: none;
+    }
+
+    #game {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .hud {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: var(--hud-bg);
+      backdrop-filter: blur(3px);
+      z-index: 10;
+      font-weight: 700;
+    }
+
+    .hud .title {
+      font-size: clamp(14px, 3vw, 18px);
+      letter-spacing: 0.4px;
+    }
+
+    .message {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      background: rgba(4, 15, 36, 0.64);
+      z-index: 20;
+    }
+
+    .message.show { display: flex; }
+
+    .message h2 {
+      margin: 0 0 8px;
+      font-size: clamp(26px, 7vw, 42px);
+    }
+
+    .message p {
+      margin: 0 0 18px;
+      font-size: clamp(14px, 4vw, 20px);
+      max-width: 460px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #08243f;
+      background: linear-gradient(180deg, #e8f8ff, #93d7ff);
+    }
+
+    .joystick {
+      position: fixed;
+      width: 132px;
+      height: 132px;
+      left: 18px;
+      bottom: 20px;
+      border-radius: 50%;
+      background: rgba(6, 31, 56, 0.45);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 12;
+      touch-action: none;
+    }
+
+    .stick {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, #8ed6ff 65%, #52b2e6);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      transform: translate(0, 0);
+    }
+
+    @media (min-width: 900px) {
+      .joystick { width: 150px; height: 150px; }
+      .stick { width: 64px; height: 64px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div class="hud">
+    <div class="title">🐧 Arctic Fish Hunt</div>
+    <div id="counter">Fish: 0 / 100</div>
+  </div>
+
+  <div class="joystick" id="joystickBase" aria-label="Movement joystick">
+    <div class="stick" id="joystickStick"></div>
+  </div>
+
+  <div class="message" id="winMessage">
+    <h2>You Win! 🐟</h2>
+    <p>The penguin collected all 100 gold fish in the arctic maze.</p>
+    <button id="restartBtn">Play Again</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const counter = document.getElementById('counter');
+    const winMessage = document.getElementById('winMessage');
+    const restartBtn = document.getElementById('restartBtn');
+
+    const base = document.getElementById('joystickBase');
+    const stick = document.getElementById('joystickStick');
+
+    const TILE = 64;
+    const MAP_W = 33;
+    const MAP_H = 33;
+    const targetFish = 100;
+
+    let world = [];
+    let fish = [];
+    let fishCount = 0;
+
+    const penguin = {
+      x: TILE + TILE / 2,
+      y: TILE + TILE / 2,
+      radius: 20,
+      speed: 210,
+      vx: 0,
+      vy: 0
+    };
+
+    const camera = { x: 0, y: 0 };
+    const joystick = { active: false, id: null, x: 0, y: 0, dx: 0, dy: 0, max: 46 };
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function mazeCell(x, y) {
+      return y * MAP_W + x;
+    }
+
+    function generateMaze() {
+      world = Array(MAP_W * MAP_H).fill(1);
+      const visited = Array(MAP_W * MAP_H).fill(false);
+
+      const stack = [{ x: 1, y: 1 }];
+      world[mazeCell(1, 1)] = 0;
+      visited[mazeCell(1, 1)] = true;
+
+      while (stack.length) {
+        const current = stack[stack.length - 1];
+        const neighbors = [
+          { x: current.x + 2, y: current.y, wx: current.x + 1, wy: current.y },
+          { x: current.x - 2, y: current.y, wx: current.x - 1, wy: current.y },
+          { x: current.x, y: current.y + 2, wx: current.x, wy: current.y + 1 },
+          { x: current.x, y: current.y - 2, wx: current.x, wy: current.y - 1 },
+        ].filter(n => n.x > 0 && n.y > 0 && n.x < MAP_W - 1 && n.y < MAP_H - 1 && !visited[mazeCell(n.x, n.y)]);
+
+        if (!neighbors.length) {
+          stack.pop();
+          continue;
+        }
+
+        const next = neighbors[Math.floor(Math.random() * neighbors.length)];
+        world[mazeCell(next.wx, next.wy)] = 0;
+        world[mazeCell(next.x, next.y)] = 0;
+        visited[mazeCell(next.x, next.y)] = true;
+        stack.push({ x: next.x, y: next.y });
+      }
+
+      for (let i = 0; i < 90; i++) {
+        const x = 1 + Math.floor(Math.random() * (MAP_W - 2));
+        const y = 1 + Math.floor(Math.random() * (MAP_H - 2));
+        world[mazeCell(x, y)] = 0;
+      }
+    }
+
+    function placeFish() {
+      fish = [];
+      const free = [];
+      for (let y = 1; y < MAP_H - 1; y++) {
+        for (let x = 1; x < MAP_W - 1; x++) {
+          if (world[mazeCell(x, y)] === 0 && !(x === 1 && y === 1)) {
+            free.push({ x, y });
+          }
+        }
+      }
+
+      for (let i = free.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [free[i], free[j]] = [free[j], free[i]];
+      }
+
+      for (let i = 0; i < Math.min(targetFish, free.length); i++) {
+        fish.push({ x: free[i].x, y: free[i].y, collected: false });
+      }
+      fishCount = 0;
+      updateCounter();
+    }
+
+    function updateCounter() {
+      counter.textContent = `Fish: ${fishCount} / ${targetFish}`;
+    }
+
+    function isWallAt(px, py) {
+      const cx = Math.floor(px / TILE);
+      const cy = Math.floor(py / TILE);
+      if (cx < 0 || cy < 0 || cx >= MAP_W || cy >= MAP_H) return true;
+      return world[mazeCell(cx, cy)] === 1;
+    }
+
+    function tryMove(nx, ny) {
+      const r = penguin.radius * 0.8;
+      if (
+        isWallAt(nx - r, ny - r) ||
+        isWallAt(nx + r, ny - r) ||
+        isWallAt(nx - r, ny + r) ||
+        isWallAt(nx + r, ny + r)
+      ) return false;
+      penguin.x = nx;
+      penguin.y = ny;
+      return true;
+    }
+
+    function collectFish() {
+      const cellX = Math.floor(penguin.x / TILE);
+      const cellY = Math.floor(penguin.y / TILE);
+
+      for (const f of fish) {
+        if (!f.collected && f.x === cellX && f.y === cellY) {
+          f.collected = true;
+          fishCount += 1;
+          updateCounter();
+          if (fishCount >= targetFish) {
+            winMessage.classList.add('show');
+          }
+        }
+      }
+    }
+
+    function drawWorld() {
+      ctx.fillStyle = '#f5fbff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const startX = Math.max(0, Math.floor(camera.x / TILE));
+      const endX = Math.min(MAP_W, Math.ceil((camera.x + canvas.width) / TILE));
+      const startY = Math.max(0, Math.floor(camera.y / TILE));
+      const endY = Math.min(MAP_H, Math.ceil((camera.y + canvas.height) / TILE));
+
+      for (let y = startY; y < endY; y++) {
+        for (let x = startX; x < endX; x++) {
+          const sx = x * TILE - camera.x;
+          const sy = y * TILE - camera.y;
+
+          if (world[mazeCell(x, y)] === 1) {
+            const wallGrad = ctx.createLinearGradient(sx, sy, sx + TILE, sy + TILE);
+            wallGrad.addColorStop(0, '#e8fbff');
+            wallGrad.addColorStop(1, '#7bc9e8');
+            ctx.fillStyle = wallGrad;
+            ctx.fillRect(sx, sy, TILE, TILE);
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(sx + 1, sy + 1, TILE - 2, TILE - 2);
+          } else {
+            ctx.fillStyle = '#f7fdff';
+            ctx.fillRect(sx, sy, TILE, TILE);
+            ctx.fillStyle = 'rgba(176, 224, 255, 0.2)';
+            ctx.beginPath();
+            ctx.arc(sx + 9, sy + 10, 3, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      for (const f of fish) {
+        if (f.collected) continue;
+        const fx = f.x * TILE + TILE / 2 - camera.x;
+        const fy = f.y * TILE + TILE / 2 - camera.y;
+
+        ctx.fillStyle = '#ffd94d';
+        ctx.beginPath();
+        ctx.ellipse(fx, fy, 16, 10, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(fx - 16, fy);
+        ctx.lineTo(fx - 24, fy - 6);
+        ctx.lineTo(fx - 24, fy + 6);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#0f2f4f';
+        ctx.beginPath();
+        ctx.arc(fx + 7, fy - 2, 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function drawPenguin() {
+      const px = penguin.x - camera.x;
+      const py = penguin.y - camera.y;
+
+      ctx.fillStyle = '#1f2a3f';
+      ctx.beginPath();
+      ctx.ellipse(px, py + 2, 20, 24, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#f8f8f8';
+      ctx.beginPath();
+      ctx.ellipse(px, py + 8, 12, 15, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#1f2a3f';
+      ctx.beginPath();
+      ctx.arc(px, py - 18, 13, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffb02e';
+      ctx.beginPath();
+      ctx.moveTo(px, py - 16);
+      ctx.lineTo(px + 11, py - 12);
+      ctx.lineTo(px, py - 8);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.arc(px - 4, py - 20, 3.6, 0, Math.PI * 2);
+      ctx.arc(px + 4, py - 20, 3.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#06131f';
+      ctx.beginPath();
+      ctx.arc(px - 4, py - 20, 1.6, 0, Math.PI * 2);
+      ctx.arc(px + 4, py - 20, 1.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function update(dt) {
+      if (!winMessage.classList.contains('show')) {
+        const amount = Math.hypot(joystick.dx, joystick.dy);
+        if (amount > 0.05) {
+          penguin.vx = joystick.dx;
+          penguin.vy = joystick.dy;
+        } else {
+          penguin.vx = 0;
+          penguin.vy = 0;
+        }
+
+        const nx = penguin.x + penguin.vx * penguin.speed * dt;
+        const ny = penguin.y + penguin.vy * penguin.speed * dt;
+
+        if (!tryMove(nx, penguin.y)) {
+          tryMove(penguin.x, ny);
+        } else {
+          tryMove(nx, ny);
+        }
+
+        collectFish();
+      }
+
+      camera.x = penguin.x - canvas.width / 2;
+      camera.y = penguin.y - canvas.height / 2;
+      camera.x = Math.max(0, Math.min(camera.x, MAP_W * TILE - canvas.width));
+      camera.y = Math.max(0, Math.min(camera.y, MAP_H * TILE - canvas.height));
+    }
+
+    function render() {
+      drawWorld();
+      drawPenguin();
+    }
+
+    let prev = performance.now();
+    function gameLoop(now) {
+      const dt = Math.min(0.033, (now - prev) / 1000);
+      prev = now;
+      update(dt);
+      render();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function setJoystickFromPoint(clientX, clientY) {
+      const rect = base.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = clientX - cx;
+      const dy = clientY - cy;
+      const dist = Math.hypot(dx, dy);
+      const clamped = Math.min(joystick.max, dist);
+      const angle = Math.atan2(dy, dx);
+      const sx = Math.cos(angle) * clamped;
+      const sy = Math.sin(angle) * clamped;
+
+      stick.style.transform = `translate(${sx}px, ${sy}px)`;
+      joystick.dx = dist === 0 ? 0 : sx / joystick.max;
+      joystick.dy = dist === 0 ? 0 : sy / joystick.max;
+    }
+
+    function resetJoystick() {
+      joystick.active = false;
+      joystick.id = null;
+      joystick.dx = 0;
+      joystick.dy = 0;
+      stick.style.transform = 'translate(0, 0)';
+    }
+
+    base.addEventListener('pointerdown', (e) => {
+      joystick.active = true;
+      joystick.id = e.pointerId;
+      base.setPointerCapture(e.pointerId);
+      setJoystickFromPoint(e.clientX, e.clientY);
+    });
+
+    base.addEventListener('pointermove', (e) => {
+      if (!joystick.active || joystick.id !== e.pointerId) return;
+      setJoystickFromPoint(e.clientX, e.clientY);
+    });
+
+    function endPointer(e) {
+      if (joystick.id !== e.pointerId) return;
+      resetJoystick();
+    }
+
+    base.addEventListener('pointerup', endPointer);
+    base.addEventListener('pointercancel', endPointer);
+    base.addEventListener('lostpointercapture', resetJoystick);
+
+    restartBtn.addEventListener('click', () => {
+      setupGame();
+      winMessage.classList.remove('show');
+    });
+
+    function setupGame() {
+      generateMaze();
+      placeFish();
+      penguin.x = TILE + TILE / 2;
+      penguin.y = TILE + TILE / 2;
+      resetJoystick();
+    }
+
+    window.addEventListener('resize', resize);
+
+    resize();
+    setupGame();
+    requestAnimationFrame(gameLoop);
+  </script>
+</body>
+</html>
